@@ -15,7 +15,7 @@ extern "C" {
 void cuda_sum(float *a, float *b, float *c, size_t size)
 {
     float *d_a, *d_b, *d_c;
-
+    printf("%d/n",size);
     cudaMalloc((void **)&d_a, size * sizeof(float));
     cudaMalloc((void **)&d_b, size * sizeof(float));
     cudaMalloc((void **)&d_c, size * sizeof(float));
