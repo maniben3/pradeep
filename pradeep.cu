@@ -1,5 +1,6 @@
 #include <cuda.h>
 #include <cuda_runtime_api.h>
+#include <stdio.h>
 
 __global__ void cuda_sum_kernel(float *a, float *b, float *c, size_t size)
 {
