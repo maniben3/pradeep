@@ -12,11 +12,10 @@ __global__ void vecAdd(double *a, double *b, double *c, int n)
     if (id < n)
         c[id] = a[id] + b[id];
 }
- 
-int main( int argc, char* argv[] )
+extern "C" {
+void cuda_sum( int n )
 {
     // Size of vectors
-    int n = 100000;
  
     // Host input vectors
     double *h_a;
@@ -85,4 +84,5 @@ int main( int argc, char* argv[] )
     free(h_c);
  
     return 0;
+}
 }
