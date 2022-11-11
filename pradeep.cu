@@ -1,4 +1,4 @@
-%%cu
+
 #include <atomic>
 #include <chrono>
 #include <stddef.h>
