@@ -1,20 +1,21 @@
-#include <iostream>
+void run(ftype *i1, ftype  *i2, ftype *o1, int d){
 
-using namespace std ;
+	ftype *d_i1, *d_i2, *d_o1;
+	int ds = d*d*sizeof(ftype);
+	cudaMalloc(&d_i1, ds);
+	cudaMalloc(&d_i2, ds);
+	cudaMalloc(&d_o1, ds);
+	cudaMemcpy(d_i1, i1, ds, cudaMemcpyHostToDevice);
+	cudaMemcpy(d_i2, i2, ds, cudaMemcpyHostToDevice);
 
-# define DELLEXPORT extern "C" __declspec(dllexport)
-
-__global__ void kernel(long* answer = 0){
-    *answer = threadIdx.x + (blockIdx.x * blockDim.x);
-}
-
-DELLEXPORT void resoult(long* h_answer){
-
-    long* d_answer = 0;
-    
-    cudaMalloc(&d_answer, sizeof(long));
-
-    kernel<<<10,1000>>>(d_answer);
-    cudaMemcpy(&h_answer, d_answer, sizeof(long), cudaMemcpyDeviceToHost);
-        cudaFree(d_answer);
+	cublasHandle_t h;
+	cublasCreate(&h);
+	ftype alpha = 1.0;
+	ftype beta = 0.0;
+	cublasSgemm(h, CUBLAS_OP_N, CUBLAS_OP_N, d, d, d, &alpha, d_i1, d, d_i2, d, &beta, d_o1, d);
+	cudaMemcpy(o1, d_o1, ds, cudaMemcpyDeviceToHost);
+	
+	cudaFree(d_i1);
+	cudaFree(d_i2);
+	cudaFree(d_o1);
 }
