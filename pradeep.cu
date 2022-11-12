@@ -1,3 +1,10 @@
+#include <cublas_v2.h>
+
+typedef float ftype;
+extern "C"
+
+void run(ftype *i1, ftype  *i2, ftype *o1, int d);
+
 void run(ftype *i1, ftype  *i2, ftype *o1, int d){
 
 	ftype *d_i1, *d_i2, *d_o1;
